@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-
+from flask_wtf.csrf import CSRFProtect
+from flask_bcrypt import Bcrypt
 
 # class Jogo():
 #     def __init__(self,nome, categoria, console):
@@ -34,9 +35,14 @@ app.secret_key = 'alura'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///jogoteca.db'
 app.config['SECRET_KEY'] = 'secret'
 
-db = SQLAlchemy(app)
+app.config.from_pyfile('config.py')
 
-from views import *
+db = SQLAlchemy(app)
+csrf =CSRFProtect(app)
+bcrypt = Bcrypt(app)
+
+from views_game import *
+from views_user import *
 
 if __name__ == '__main__':
     app.run(debug=True)
